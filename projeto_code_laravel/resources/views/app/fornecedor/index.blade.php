@@ -1,43 +1,32 @@
-<h3>Fornecedores</h3>
+@extends('app.layouts.basico')
 
-{{-- @if (count($fornecedores) > 0 && count($fornecedores) < 10)
-    <h3>Existem alguns fornecedores cadastrados</h3>
+@section('titulo', 'Fornecedor')
 
-@elseif(count($fornecedores) > 10)
-    <h3>Existem muitos fornecedores cadastrados</h3>
+@section('conteudo')
 
-@else 
-    <h3>Não existem fornecedores cadastrados</h3>
-    
-@endif --}}
+<div class="conteudo-pagina">
+    <div class="titulo-pagina-2">
+        <p>Fornecedor</p>
+    </div>
 
-@isset($fornecedores)
+    <div class="menu">
+        <li><a href="{{ route('app.fornecedor.adicionar') }}">Novo</a></li>
+        <li><a href="{{ route('app.fornecedor') }}">Consulta</a></li>
+    </div>
 
-    @forelse ( $fornecedores as $indice => $fornecedor )
-        Interação atual: {{ $loop->interation }}
-        <br>
-        Forncedor: {{ $fornecedor['nome'] }}
-        <br>
-        Status: {{ $fornecedor['status']}}
-        <br>
-        CNPJ: {{ $fornecedor['cnpj']}}
-        <br>
-        Telefone:({{ $fornecedor['ddd']}}) {{ $fornecedor['telefone']}} 
-        
-        @if ($loop->fist)
-            <br>
-            Primeiro Cadastro.
-        @endif
+    <div class="informacao-pagina">
+        <div style="width: 30%; margin-left: auto; margin-right: auto">
+            <form method="post" action="{{ route('app.fornecedor.listar') }}">
+                @csrf
+                <input type="text" name="nome" placeholder="Nome" class="borda-preta">
+                <input type="text" name="site" placeholder="Site" class="borda-preta">
+                <input type="text" name="uf" placeholder="UF" class="borda-preta">
+                <input type="text" name="email" placeholder="E-mail" class="borda-preta">
+                <button type="submit" class="borda-preta">Pesquisar</button>
+            </form>
+        </div>
+    </div>
 
-        @if ($loop->last)
-            <br>
-            Ultimo Cadastro.
-        @endif
-        
-        <hr>
-        @empty
-            Não existem fornecedores cadastrados!!!
-    @endforelse
+</div>
 
-@endisset
-
+@endsection

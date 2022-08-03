@@ -1,15 +1,15 @@
 {{ $slot }}
 <form action={{ route('site.contato') }} method="post">
     @csrf
-    <input name="nome" value="{{ old('nome')}}" type="text" placeholder="Nome" class="{{ $classe }}">
+    <input name="nome" value="{{ old('nome') }}" type="text" placeholder="Nome" class="{{ $classe }}">
     @if ($errors->has('nome'))
-        {{ $errors->first('nome' )}}
+        {{ $errors->first('nome' ) }}
     @endif
     <br>
-    <input name="telefone" value="{{ old('telefone')}}" type="text" placeholder="Telefone" class="{{ $classe }}">
+    <input name="telefone" value="{{ old('telefone') }}" type="text" placeholder="Telefone" class="{{ $classe }}">
     {{ $errors->has('telefone') ? $errors->first('telefone') : '' }}
     <br>
-    <input name="email" value="{{ old('nome')}}" type="text" placeholder="E-mail" class="{{ $classe }}">
+    <input name="email" value="{{ old('nome') }}" type="text" placeholder="E-mail" class="{{ $classe }}">
     {{ $errors->has('email') ? $errors->first('email') : '' }}
     <br>
     <select name="motivo_contatos_id" class="{{ $classe }}">

@@ -152,6 +152,13 @@ button:hover {
     margin-bottom: 100px;
 }
 
+.titulo-pagina-2 {
+    padding: 70px 0px 10px 0px;
+    margin-bottom: 10px;
+    background-color: #2a9ee2;
+    text-align: center;
+}
+
 .titulo-pagina {
     padding: 100px 0px 60px 0px;
     background-color: #2a9ee2;
@@ -187,3 +194,10 @@ button:hover {
 .redes-sociais img {
     margin: 0px 15px 0px 15px;
 }
+
+nav.flex.items-center.justify-between {
+    list-style-type: none;
+    display: inline-block ;
+}
+
+
