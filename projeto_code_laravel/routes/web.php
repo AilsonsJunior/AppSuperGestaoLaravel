@@ -34,6 +34,8 @@ Route::middleware('autenticacao')->prefix('/app')->group(function() {
 
     Route::get('/cliente', [\App\Http\Controllers\ClienteController::class, 'index'])->name('app.cliente');
 
+
+    // fornecedores
     Route::get('/fornecedor',[\App\Http\Controllers\FornecedorController::class, 'index'])->name('app.fornecedor');
 
     Route::post('/fornecedor/listar',[\App\Http\Controllers\FornecedorController::class, 'listar'])->name('app.fornecedor.listar');
@@ -43,12 +45,13 @@ Route::middleware('autenticacao')->prefix('/app')->group(function() {
 
     Route::get('/fornecedor/excluir/{id}',[\App\Http\Controllers\FornecedorController::class, 'excluir'])->name('app.fornecedor.excluir');
 
-
     Route::get('/fornecedor/adicionar',[\App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
     Route::post('/fornecedor/adicionar',[\App\Http\Controllers\FornecedorController::class, 'adicionar'])->name('app.fornecedor.adicionar');
 
-    Route::get('/produto', [\App\Http\Controllers\ProdutoController::class, 'index'])->name('app.produto');
+    //produtos
+    Route::resource('produto', \App\Http\Controllers\ProdutoController::class);
 
+    Route::resource('produto-detalhe', \App\Http\Controllers\ProdutoDetalheController::class);
 
 });
 
