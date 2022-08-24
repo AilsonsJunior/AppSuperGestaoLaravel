@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\PedidoProduto;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
+class PedidoProdutoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {   
-        $clientes = Cliente::paginate(10);
-        return view('app.cliente.index', ['clientes' => $clientes, 'request' => $request->all()]);
+    public function index()
+    {
+        //
     }
 
     /**
@@ -23,9 +24,11 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('app.cliente.create');
+    public function create(Pedido $pedido)
+    {   
+        $produtos = Produto::all();
+        $pedido->produtos; //eager loading
+        return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos]);
     }
 
     /**
@@ -34,25 +37,24 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Pedido $pedido)
     {
         $regras = [
-            'nome' => 'required|min:3|max:40'
+            'produto_id' => 'exists:produtos,id'
         ];
+
         $feedback = [
-            'required' => 'O campo Nome deve ser preenchido',
-            'nome.min' => 'O campo Nome deve ter no minimo 3 caracteres',
-            'nome.max' => 'O campo Nome deve ter no maximo 40 caracteres'
+            'produto_id.exists' => 'O produto informado nao existe'
         ];
 
         $request->validate($regras, $feedback);
 
-        $cliente = new Cliente();
-        $cliente->nome = $request->get('nome');
-        $cliente->save();
+        $pedidoProduto = new PedidoProduto();
+        $pedidoProduto->produto_id = $request->get('produto_id');
+        $pedidoProduto->pedido_id = $pedido->id;
+        $pedidoProduto->save();
 
-        return redirect()->route('cliente.index');
-
+        return redirect()->route('pedido-produto.create', ['pedido' => $pedido->id]);
     }
 
     /**
