@@ -40,19 +40,31 @@ class PedidoProdutoController extends Controller
     public function store(Request $request, Pedido $pedido)
     {
         $regras = [
-            'produto_id' => 'exists:produtos,id'
+            'produto_id' => 'exists:produtos,id',
+            'quantidade' => 'required'
         ];
 
         $feedback = [
-            'produto_id.exists' => 'O produto informado nao existe'
+            'produto_id.exists' => 'O produto informado nao existe',
+            'required' => 'O campo :attribute precisa ser preenchido'
         ];
 
         $request->validate($regras, $feedback);
 
         $pedidoProduto = new PedidoProduto();
-        $pedidoProduto->produto_id = $request->get('produto_id');
+
+        
         $pedidoProduto->pedido_id = $pedido->id;
+        $pedidoProduto->produto_id = $request->get('produto_id');
+        $pedidoProduto->quantidade = $request->get('quantidade');
         $pedidoProduto->save();
+        
+        //utilizando o metodo attach
+        /*$pedido->produtos()->attach(
+            $request->get('produto_id'),
+            ['quantidade' => $request->get('quantidade') ]
+        );*/
+
 
         return redirect()->route('pedido-produto.create', ['pedido' => $pedido->id]);
     }
@@ -97,8 +109,20 @@ class PedidoProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    //public function destroy(Pedido $pedido, Produto $produto)
+    public function destroy(PedidoProduto $pedidoProduto, Pedido $pedido )
     {
-        //
+        //convencional
+        // PedidoProduto::where([
+        //    'id' => $pedidoProduto->id
+        //])->delete();
+
+        //detach - delete pelo relacionamento 
+        //$pedido->produtos()->detach($produto->id) ;
+        //pedido_id já esta em contexto e só é necessario enviar o produto_id 
+
+        $pedidoProduto->delete();
+
+        return redirect()->route('pedido-produto.create' , [ 'pedido' => $pedido->id ]);
     }
 }

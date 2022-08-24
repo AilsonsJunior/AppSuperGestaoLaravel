@@ -55,9 +55,12 @@ Route::middleware('autenticacao')->prefix('/app')->group(function() {
 
     Route::resource('cliente', \App\Http\Controllers\ClienteController::class);
     Route::resource('pedido', \App\Http\Controllers\PedidoController::class);
+
     //Route::resource('pedido-produto', \App\Http\Controllers\PedidoProdutoController::class);
+
     Route::get('/pedido-produto/create/{pedido}',[\App\Http\Controllers\PedidoProdutoController::class, 'create'])->name('pedido-produto.create');
     Route::get('/pedido-produto/store/{pedido}',[\App\Http\Controllers\PedidoProdutoController::class, 'store'])->name('pedido-produto.store');
+    Route::delete('/pedido-produto/destroy/{pedidoProduto}/{pedido}',[\App\Http\Controllers\PedidoProdutoController::class, 'destroy'])->name('pedido-produto.destroy');
 });
 
 Route::fallback( function () {
